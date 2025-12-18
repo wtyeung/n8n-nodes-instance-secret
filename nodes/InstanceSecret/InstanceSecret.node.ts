@@ -11,9 +11,10 @@ export class InstanceSecret implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'Instance Secret',
 		name: 'instanceSecret',
-		icon: 'fa:lock',
+		icon: 'file:lock.svg',
 		group: ['transform'],
 		version: 1,
+		usableAsTool: true,
 		description: 'Encrypt and decrypt data using the instance encryption key',
 		defaults: {
 			name: 'Instance Secret',
@@ -109,6 +110,7 @@ export class InstanceSecret implements INodeType {
 		const returnData: INodeExecutionData[] = [];
 
 		// Get the encryption key from environment variable
+		// eslint-disable-next-line @n8n/community-nodes/no-restricted-globals
 		const encryptionKey = process.env.N8N_ENCRYPTION_KEY;
 
 		if (!encryptionKey) {

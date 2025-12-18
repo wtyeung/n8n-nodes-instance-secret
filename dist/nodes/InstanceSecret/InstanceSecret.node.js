@@ -8,9 +8,10 @@ class InstanceSecret {
         this.description = {
             displayName: 'Instance Secret',
             name: 'instanceSecret',
-            icon: 'fa:lock',
+            icon: 'file:lock.svg',
             group: ['transform'],
             version: 1,
+            usableAsTool: true,
             description: 'Encrypt and decrypt data using the instance encryption key',
             defaults: {
                 name: 'Instance Secret',
