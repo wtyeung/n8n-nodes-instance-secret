@@ -195,17 +195,27 @@ export class InstanceSecret implements INodeType {
 
 					const [ivString, encryptedData] = parts;
 
-					// Detect encoding format (hex, base64, or base64url)
+					// Detect encoding format based on IV length and character set
+					// For 16-byte IV: hex=32 chars, base64=24 chars (with padding), base64url=22 chars
 					let encoding: BufferEncoding = 'hex';
 					let isBase64Url = false;
 
-					// Check for base64url (no +, /, or =)
-					if (/^[A-Za-z0-9_-]+$/.test(ivString)) {
+					if (ivString.length === 32 && /^[0-9a-fA-F]+$/.test(ivString)) {
+						// Hex: 32 characters, only 0-9a-fA-F
+						encoding = 'hex';
+					} else if ((ivString.length === 24 || ivString.length === 22) && /[+/=]/.test(ivString)) {
+						// Standard base64: 22-24 characters with +, /, or =
+						encoding = 'base64';
+					} else if (ivString.length === 22 && /^[A-Za-z0-9_-]+$/.test(ivString)) {
+						// Base64URL: 22 characters, no padding, only A-Za-z0-9_-
 						isBase64Url = true;
 						encoding = 'base64';
-					} else if (/^[A-Za-z0-9+/=]+$/.test(ivString)) {
-						// Standard base64
-						encoding = 'base64';
+					} else {
+						throw new NodeOperationError(
+							this.getNode(),
+							`Unable to detect encoding format. IV length: ${ivString.length}. Expected 32 (hex), 24 (base64), or 22 (base64url)`,
+							{ itemIndex },
+						);
 					}
 
 					try {

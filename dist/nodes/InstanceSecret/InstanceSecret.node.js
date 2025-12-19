@@ -158,12 +158,18 @@ class InstanceSecret {
                     const [ivString, encryptedData] = parts;
                     let encoding = 'hex';
                     let isBase64Url = false;
-                    if (/^[A-Za-z0-9_-]+$/.test(ivString)) {
+                    if (ivString.length === 32 && /^[0-9a-fA-F]+$/.test(ivString)) {
+                        encoding = 'hex';
+                    }
+                    else if ((ivString.length === 24 || ivString.length === 22) && /[+/=]/.test(ivString)) {
+                        encoding = 'base64';
+                    }
+                    else if (ivString.length === 22 && /^[A-Za-z0-9_-]+$/.test(ivString)) {
                         isBase64Url = true;
                         encoding = 'base64';
                     }
-                    else if (/^[A-Za-z0-9+/=]+$/.test(ivString)) {
-                        encoding = 'base64';
+                    else {
+                        throw new n8n_workflow_1.NodeOperationError(this.getNode(), `Unable to detect encoding format. IV length: ${ivString.length}. Expected 32 (hex), 24 (base64), or 22 (base64url)`, { itemIndex });
                     }
                     try {
                         let iv;
