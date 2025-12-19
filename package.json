@@ -3,7 +3,7 @@
     "version": "0.1.2",
     "description": "n8n community node for encrypting and decrypting data using the instance encryption key",
     "license": "MIT",
-    "homepage": "https://example.com",
+    "homepage": "https://github.com/wtyeung/n8n-nodes-instance-secret#readme",
     "keywords": [
         "n8n-community-node-package"
     ],
@@ -13,7 +13,7 @@
     },
     "repository": {
         "type": "git",
-        "url": ""
+        "url": "https://github.com/wtyeung/n8n-nodes-instance-secret.git"
     },
     "scripts": {
         "build": "n8n-node build",
