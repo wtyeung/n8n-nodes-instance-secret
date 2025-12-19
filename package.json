@@ -1,6 +1,6 @@
 {
     "name": "n8n-nodes-instance-secret",
-    "version": "0.1.2",
+    "version": "0.1.3",
     "description": "n8n community node for encrypting and decrypting data using the instance encryption key",
     "license": "MIT",
     "homepage": "https://github.com/wtyeung/n8n-nodes-instance-secret#readme",
